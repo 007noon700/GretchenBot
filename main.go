@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/joho/godotenv"
 )
 
 var errInvalidFormat = errors.New("invalid format")
@@ -33,8 +34,12 @@ func TimeIn(t time.Time, name string) (time.Time, error) {
 }
 
 func main() {
-
-	discord, err := discordgo.New("Bot <TOKEN>")
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	TOKEN := os.Getenv("TOKEN")
+	discord, err := discordgo.New("Bot " + TOKEN)
 
 	if err != nil {
 		log.Fatal(err)
